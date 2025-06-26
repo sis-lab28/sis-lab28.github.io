@@ -1,9 +1,9 @@
 ---
 ---
 
-# sis-lab28's Website
+# Your Space. Our Data. Let’s Build Something Meaningful.
 
-An engaging 1-3 sentence description of your lab.
+Spatial Intelligence System Lab is a research and development lab focused on building intelligent systems that understand, analyze, and visualize spatial data
 
 {% include section.html %}
 
@@ -11,7 +11,7 @@ An engaging 1-3 sentence description of your lab.
 
 {% capture text %}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Turning maps into smart decisions — we engineer, analyze, and visualize spatial data to unlock hidden insights you never knew existed. Curious how data can see what humans can’t?
 
 {%
   include button.html
@@ -34,7 +34,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 {% capture text %}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ever wondered what your location data is hiding? Our project reveals it all.
 
 {%
   include button.html
@@ -59,7 +59,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 {% capture text %}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Meet the brains behind the breakthroughs — our team turns data into action.
 
 {%
   include button.html
