@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - SIS LAB 28</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styling & Variables */
+        :root {
+            --background-light: #ffffff;
+            --card-background-light: #f9f9f9;
+            --text-color-light: #5d5d5d;
+            --heading-color-light: #4a4a4a;
+            --border-color-light: #e0e0e0;
+            --link-color: #007bff;
+            --tag-bg-light: #e0e7ff;
+            --tag-text-light: #4338ca;
+
+            --background-dark: #1a202c;
+            --card-background-dark: #2d3748;
+            --text-color-dark: #a0aec0;
+            --heading-color-dark: #e2e8f0;
+            --border-color-dark: #4a5568;
+            --tag-bg-dark: #3730a3;
+            --tag-text-dark: #e0e7ff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--background-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(rgba(29, 43, 78, 0.8), rgba(29, 43, 78, 0.8)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 20px 0;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header .container { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        header .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
+        header .logo-icon { width: 32px; height: 32px; background-color: #00bcd4; display: flex; align-items: center; justify-content: center; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+        header .logo-icon i { font-size: 16px; color: black; }
+        header .logo-text { font-size: 20px; font-weight: bold; }
+        header nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* === KONTEN UTAMA HALAMAN BLOG === */
+        
+        .page-intro { text-align: center; padding: 40px 0; margin-bottom: 40px; }
+        .page-intro .title-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .page-intro .icon { font-size: 24px; color: var(--heading-color-light); }
+        .page-intro h1 { font-size: 24px; letter-spacing: 2px; color: var(--heading-color-light); margin: 0; }
+        .page-intro p { max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        .search-bar-wrapper { position: relative; max-width: 700px; margin: 0 auto 20px auto; }
+        #search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            background-color: var(--card-background-light);
+            color: var(--text-color-light);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .search-bar-wrapper .fa-search { position: absolute; top: 50%; right: 15px; transform: translateY(-50%); color: var(--text-color-light); }
+        
+        .filter-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 50px; }
+        .filter-tags button {
+            font-size: 14px;
+            padding: 5px 15px;
+            border-radius: 15px;
+            border: none;
+            background-color: var(--tag-bg-light);
+            color: var(--tag-text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-tags button.active { background-color: var(--link-color); color: white; }
+
+        .year-section { margin-bottom: 50px; }
+        .year-title { font-size: 24px; color: var(--heading-color-light); border-bottom: 1px solid var(--border-color-light); padding-bottom: 10px; margin-bottom: 30px; }
+        
+        .post-card {
+            background-color: var(--card-background-light);
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+        }
+        .post-card .title a { font-size: 18px; font-weight: bold; color: var(--link-color); text-decoration: none; }
+        .post-card .post-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 20px; margin: 12px 0; color: var(--text-color-light); font-size: 12px; }
+        .post-card .meta-item { display: flex; align-items: center; gap: 6px; }
+        .post-card .meta-item .author-icon { width: 24px; height: 24px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; }
+        .post-card .meta-item .author-icon i { color: #888; }
+        .post-card .post-tags .tag { font-size: 11px; padding: 3px 10px; border-radius: 12px; background-color: var(--tag-bg-light); color: var(--tag-text-light); }
+        .post-card .excerpt { font-size: 14px; line-height: 1.6; margin-top: 15px; }
+
+        /* Footer */
+        footer { 
+            background: linear-gradient(rgba(29, 43, 78, 0.9), rgba(29, 43, 78, 0.9)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #e0e0e0; 
+            text-align: center; 
+            padding: 40px 20px; 
+        }
+        .social-icons a { color: white; font-size: 22px; margin: 0 15px; }
+        .footer-text { margin-top: 30px; font-size: 14px; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid #4a5a8a; }
+        .footer-link { font-size: 12px; color: #e0e0e0; text-decoration: none; transition: color 0.3s; }
+        .footer-link:hover { color: #ffffff; text-decoration: underline; }
+
+        /* === DARK MODE STYLES === */
+        body.dark-mode { background-color: var(--background-dark); color: var(--text-color-dark); }
+        body.dark-mode .page-intro .icon, body.dark-mode .page-intro h1, body.dark-mode .year-title { color: var(--heading-color-dark); }
+        body.dark-mode #search-input, body.dark-mode .post-card { background-color: var(--card-background-dark); border-color: var(--border-color-dark); }
+        body.dark-mode #search-input { color: var(--text-color-dark); }
+        body.dark-mode .post-card .title a { color: var(--link-color); }
+        body.dark-mode .post-card .post-meta { color: var(--text-color-dark); }
+        body.dark-mode .filter-tags button, body.dark-mode .post-card .post-tags .tag { background-color: var(--tag-bg-dark); color: var(--tag-text-dark); }
+        body.dark-mode .filter-tags button.active { background-color: var(--link-color); color: white; }
+        body.dark-mode .meta-item .author-icon { background-color: #4a5568; }
+
+        /* Toggle Switch Styles */
+        .theme-switch-wrapper { display: flex; align-items: center; justify-content: center; }
+        .theme-switch { display: inline-block; height: 34px; position: relative; width: 60px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: #555; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 26px; left: 4px; position: absolute; transition: .4s; width: 26px; border-radius: 50%; }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .slider .fa-moon, .slider .fa-sun { position: absolute; top: 9px; color: #f0f0f0; }
+        .slider .fa-sun { right: 9px; }
+        .slider .fa-moon { left: 9px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-container">
+                <div class="logo-icon"><i class="fas fa-flask"></i></div>
+                <span class="logo-text">SIS Lab 28</span>
+            </a>
+            <nav>
+                <a href="research.html">RESEARCH</a>
+                <a href="projects.html">PROJECTS</a>
+                <a href="team.html">TEAM</a>
+                <a href="blog.html">BLOG</a>
+                <a href="contact.html">CONTACT</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-intro">
+            <div class="title-wrapper">
+                <span class="icon"><i class="fas fa-rss"></i></span>
+                <h1>BLOG</h1>
+            </div>
+            <p>Thoughts and updates from our lab. We write about our research, new tools, and the process of science.</p>
+        </div>
+        
+        <div class="search-bar-wrapper">
+            <input type="text" id="search-input" placeholder="Search items on this page">
+            <i class="fas fa-search"></i>
+        </div>
+        
+        <div class="filter-tags">
+            <button class="active" data-filter="all">All</button>
+            <button data-filter="biology">biology</button>
+            <button data-filter="medicine">medicine</button>
+            <button data-filter="big-data">big-data</button>
+        </div>
+
+        <div id="posts-container">
+            <div class="year-section" data-year="2023">
+                <h3 class="year-title">2023</h3>
+                <article class="post-card" data-tags="biology medicine">
+                    <h2 class="title"><a href="#">Example post 3</a></h2>
+                    <div class="post-meta">
+                        <span class="meta-item"><span class="author-icon"><i class="fas fa-user"></i></span> John Doe</span>
+                        <span class="meta-item"><i class="far fa-calendar-alt"></i> February 23, 2023</span>
+                        <span class="meta-item"><i class="fas fa-history"></i> June 26, 2025</span>
+                        <span class="post-tags">
+                            <span class="tag">biology</span>
+                            <span class="tag">medicine</span>
+                        </span>
+                    </div>
+                    <p class="excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </article>
+            </div>
+            <div class="year-section" data-year="2021">
+                <h3 class="year-title">2021</h3>
+                <article class="post-card" data-tags="research">
+                    <h2 class="title"><a href="#">Example post 2</a></h2>
+                     <div class="post-meta">
+                        <span class="meta-item"><span class="author-icon"><i class="fas fa-flask"></i></span> Jane Smith</span>
+                        <span class="meta-item"><i class="far fa-calendar-alt"></i> September 30, 2021</span>
+                        <span class="meta-item"><i class="fas fa-history"></i> June 26, 2025</span>
+                    </div>
+                    <p class="excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </article>
+            </div>
+            <div class="year-section" data-year="2019">
+                <h3 class="year-title">2019</h3>
+                 <article class="post-card" data-tags="biology medicine big-data">
+                    <h2 class="title"><a href="#">Example post 1</a></h2>
+                     <div class="post-meta">
+                        <span class="meta-item"><span class="author-icon"><i class="fas fa-user"></i></span> Sarah Johnson</span>
+                        <span class="meta-item"><i class="far fa-calendar-alt"></i> January 07, 2019</span>
+                        <span class="meta-item"><i class="fas fa-history"></i> June 26, 2025</span>
+                        <span class="post-tags">
+                            <span class="tag">biology</span>
+                            <span class="tag">medicine</span>
+                            <span class="tag">big-data</span>
+                        </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fas fa-envelope"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-google-scholar"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="footer-text">© 2025 sis-lab28 | Built with Lab Website Template</p>
+        <div class="footer-bottom">
+            <a href="https://www.example.com" class="footer-link">Dominatus Moderatus</a>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider">
+                        <i class="fas fa-sun"></i><i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- THEME TOGGLE SCRIPT ---
+        const themeToggle = document.getElementById('checkbox');
+        const applyTheme = (isDarkMode) => {
+            if (isDarkMode) { document.body.classList.add('dark-mode'); themeToggle.checked = true; } 
+            else { document.body.classList.remove('dark-mode'); themeToggle.checked = false; }
+        };
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark') { applyTheme(true); } 
+        else if (savedTheme === 'light') { applyTheme(false); } 
+        else { applyTheme(prefersDark); }
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // --- BLOG FILTER AND SEARCH SCRIPT ---
+        const searchInput = document.getElementById('search-input');
+        const filterContainer = document.querySelector('.filter-tags');
+        const yearSections = document.querySelectorAll('.year-section');
+
+        function filterContent() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const activeTagFilter = filterContainer.querySelector('.active')?.getAttribute('data-filter') || 'all';
+
+            yearSections.forEach(section => {
+                const posts = section.querySelectorAll('.post-card');
+                let hasVisiblePosts = false;
+
+                posts.forEach(post => {
+                    const postText = post.textContent.toLowerCase();
+                    const postTags = post.getAttribute('data-tags');
+
+                    const matchesSearch = postText.includes(searchTerm);
+                    const matchesTag = activeTagFilter === 'all' || (postTags && postTags.includes(activeTagFilter));
+                    
+                    if (matchesSearch && matchesTag) {
+                        post.style.display = 'block';
+                        hasVisiblePosts = true;
+                    } else {
+                        post.style.display = 'none';
+                    }
+                });
+
+                // Tampilkan atau sembunyikan section tahun
+                if (hasVisiblePosts) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', filterContent);
+
+        filterContainer.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                // Hapus kelas 'active' dari tombol sebelumnya
+                const currentActive = filterContainer.querySelector('.active');
+                if (currentActive) {
+                    currentActive.classList.remove('active');
+                }
+                // Tambahkan kelas 'active' ke tombol yang diklik
+                e.target.classList.add('active');
+                
+                filterContent();
+            }
+        });
+
+    </script>
+
+</body>
+</html>

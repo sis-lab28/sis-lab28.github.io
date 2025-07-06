@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - SIS LAB 28</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styling & Variables */
+        :root {
+            --background-light: #ffffff;
+            --card-background-light: #f9f9f9;
+            --text-color-light: #5d5d5d;
+            --heading-color-light: #4a4a4a;
+            --border-color-light: #e0e0e0;
+            --link-color: #007bff;
+            --tag-bg-light: #e0e7ff;
+            --tag-text-light: #4338ca;
+
+            --background-dark: #1a202c;
+            --card-background-dark: #2d3748;
+            --text-color-dark: #a0aec0;
+            --heading-color-dark: #e2e8f0;
+            --border-color-dark: #4a5568;
+            --tag-bg-dark: #3730a3;
+            --tag-text-dark: #e0e7ff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--background-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header (Sama seperti sebelumnya) */
+        header {
+            background: linear-gradient(rgba(29, 43, 78, 0.8), rgba(29, 43, 78, 0.8)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 20px 0;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header .container { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        header .logo-container { display: flex; align-items: center; gap: 10px; }
+        header .logo-icon { width: 32px; height: 32px; background-color: #00bcd4; display: flex; align-items: center; justify-content: center; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+        header .logo-icon i { font-size: 16px; color: black; }
+        header .logo-text { font-size: 20px; font-weight: bold; }
+        header nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* === KONTEN UTAMA HALAMAN PROJECTS === */
+        
+        .page-intro { text-align: center; padding: 40px 0; margin-bottom: 40px; }
+        .page-intro .title-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .page-intro .icon { font-size: 32px; color: var(--heading-color-light); }
+        .page-intro h1 { font-size: 32px; color: var(--heading-color-light); margin: 0; }
+        .page-intro .title-wrapper a { color: var(--heading-color-light); text-decoration: none; }
+        .page-intro p { max-width: 600px; margin: 0 auto 30px auto; line-height: 1.6; }
+
+        .filter-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        /* Mengubah selektor dari button ke a */
+        .filter-tags a {
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color-light);
+            background-color: var(--card-background-light);
+            color: var(--text-color-light);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .filter-tags a:hover { border-color: var(--link-color); color: var(--link-color); }
+        .filter-tags a.active { background-color: var(--link-color); color: white; border-color: var(--link-color); }
+
+        .projects-section { margin-bottom: 50px; }
+        .section-title { font-size: 28px; color: var(--heading-color-light); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .section-title a { color: var(--heading-color-light); text-decoration: none; }
+        .section-divider { border: 0; height: 1px; background-color: var(--border-color-light); margin-bottom: 30px; }
+
+        .project-grid { display: grid; gap: 30px; }
+        .featured-grid { grid-template-columns: repeat(2, 1fr); }
+        .more-grid { grid-template-columns: repeat(3, 1fr); }
+
+        .project-card {
+            background-color: var(--card-background-light);
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .project-card .icon { font-size: 40px; color: #d4d4d4; margin-bottom: 20px; }
+        .project-card .title { font-size: 16px; font-weight: bold; }
+        .project-card .title a { color: var(--link-color); text-decoration: none; }
+        .project-card .subtitle { font-size: 13px; color: var(--text-color-light); margin: 5px 0 15px 0; }
+        .project-card .description { font-size: 13px; line-height: 1.6; }
+        .project-card .card-tags { margin-top: 20px; }
+        .project-card .tag {
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 15px;
+            background-color: var(--tag-bg-light);
+            color: var(--tag-text-light);
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        /* Responsive Grids */
+        @media (max-width: 900px) { .more-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .featured-grid, .more-grid { grid-template-columns: 1fr; } }
+        
+        /* Footer */
+        footer { 
+            background: linear-gradient(rgba(29, 43, 78, 0.9), rgba(29, 43, 78, 0.9)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #e0e0e0; 
+            text-align: center; 
+            padding: 40px 20px; 
+        }
+        .social-icons a { color: white; font-size: 22px; margin: 0 15px; }
+        .footer-text { margin-top: 30px; font-size: 14px; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid #4a5a8a; }
+        .footer-link { font-size: 12px; color: #e0e0e0; text-decoration: none; transition: color 0.3s; }
+        .footer-link:hover { color: #ffffff; text-decoration: underline; }
+
+        /* === DARK MODE STYLES === */
+        body.dark-mode { background-color: var(--background-dark); color: var(--text-color-dark); }
+        body.dark-mode .page-intro .icon, body.dark-mode .page-intro h1, body.dark-mode .section-title, body.dark-mode .section-title a { color: var(--heading-color-dark); }
+        body.dark-mode .page-intro p, body.dark-mode .project-card .subtitle, body.dark-mode .project-card .description { color: var(--text-color-dark); }
+        body.dark-mode .section-divider { background-color: var(--border-color-dark); }
+        body.dark-mode .filter-tags a { background-color: var(--card-background-dark); border-color: var(--border-color-dark); color: var(--text-color-dark); }
+        body.dark-mode .filter-tags a:hover { border-color: var(--link-color); color: var(--link-color); }
+        body.dark-mode .filter-tags a.active { background-color: var(--link-color); color: white; border-color: var(--link-color); }
+        body.dark-mode .project-card { background-color: var(--card-background-dark); border-color: var(--border-color-dark); }
+        body.dark-mode .project-card .tag { background-color: var(--tag-bg-dark); color: var(--tag-text-dark); }
+
+        /* Toggle Switch Styles */
+        .theme-switch-wrapper { display: flex; align-items: center; justify-content: center; }
+        .theme-switch { display: inline-block; height: 34px; position: relative; width: 60px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: #555; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 26px; left: 4px; position: absolute; transition: .4s; width: 26px; border-radius: 50%; }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .slider .fa-moon, .slider .fa-sun { position: absolute; top: 9px; color: #f0f0f0; }
+        .slider .fa-sun { right: 9px; }
+        .slider .fa-moon { left: 9px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-container" style="text-decoration: none; color: white;">
+                <div class="logo-icon"><i class="fas fa-flask"></i></div>
+                <span class="logo-text">SIS Lab 28</span>
+            </a>
+            <nav>
+                <a href="research.html">RESEARCH</a>
+                <a href="projects.html">PROJECTS</a>
+                <a href="team.html">TEAM</a>
+                <a href="blog.html">BLOG</a>
+                <a href="contact.html">CONTACT</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-intro">
+            <div class="title-wrapper">
+                <span class="icon"><i class="fas fa-wrench"></i></span>
+                <h1>PROJECTS</h1>
+                <a href="#"><i class="fas fa-link"></i></a>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <div class="filter-tags">
+                <a href="projects.html" class="active" title="Show all items">All</a>
+                <a href="?tag=publication" title="Show items with the tag 'publication'">publication</a>
+                <a href="?tag=resource" title="Show items with the tag 'resource'">resource</a>
+                <a href="?tag=website" title="Show items with the tag 'website'">website</a>
+                <a href="?tag=software" title="Show items with the tag 'software'">software</a>
+            </div>
+        </div>
+
+        <div class="projects-section">
+            <h2 class="section-title">Featured</h2>
+            <hr class="section-divider">
+            <div class="project-grid featured-grid">
+                <div class="project-card" data-category="resource">
+                    <div class="icon"><i class="fas fa-flask"></i></div>
+                    <h3 class="title"><a href="#">Cool Dataset</a></h3>
+                    <p class="subtitle">a subtitle</p>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="card-tags"><span class="tag">resource</span></div>
+                </div>
+                <div class="project-card" data-category="resource">
+                    <div class="icon"><i class="fas fa-flask"></i></div>
+                    <h3 class="title"><a href="#">Cool Package</a></h3>
+                    <p class="subtitle">a subtitle</p>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="card-tags"><span class="tag">resource</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="projects-section">
+            <h2 class="section-title">More <a href="#"><i class="fas fa-link"></i></a></h2>
+            <hr class="section-divider">
+            <div class="project-grid more-grid">
+                <div class="project-card" data-category="resource publication">
+                    <div class="icon"><i class="fas fa-flask"></i></div>
+                    <h3 class="title"><a href="#">Cool Tutorial</a></h3>
+                    <p class="subtitle">a subtitle</p>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="card-tags"><span class="tag">resource</span><span class="tag">publication</span></div>
+                </div>
+                <div class="project-card" data-category="software website">
+                    <div class="icon"><i class="fas fa-flask"></i></div>
+                    <h3 class="title"><a href="#">Cool Web App</a></h3>
+                    <p class="subtitle">a subtitle</p>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="card-tags"><span class="tag">software</span></div>
+                </div>
+                <div class="project-card" data-category="software">
+                    <div class="icon"><i class="fas fa-flask"></i></div>
+                    <h3 class="title"><a href="#">Cool Web Server</a></h3>
+                    <p class="subtitle">a subtitle</p>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="card-tags"><span class="tag">software</span></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fas fa-envelope"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-google-scholar"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="footer-text">© 2025 sis-lab28 | Built with Lab Website Template</p>
+        <div class="footer-bottom">
+            <a href="https://www.example.com" class="footer-link">Dominatus Moderatus</a>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider">
+                        <i class="fas fa-sun"></i><i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- THEME TOGGLE SCRIPT ---
+        const themeToggle = document.getElementById('checkbox');
+        const applyTheme = (isDarkMode) => {
+            if (isDarkMode) { document.body.classList.add('dark-mode'); themeToggle.checked = true; } 
+            else { document.body.classList.remove('dark-mode'); themeToggle.checked = false; }
+        };
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark') { applyTheme(true); } 
+        else if (savedTheme === 'light') { applyTheme(false); } 
+        else { applyTheme(prefersDark); }
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // --- URL-BASED FILTER SCRIPT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const tagFilter = params.get('tag');
+            const projectCards = document.querySelectorAll('.project-card');
+            const filterLinks = document.querySelectorAll('.filter-tags a');
+
+            // 1. Set active class on the correct link
+            let activeLinkFound = false;
+            filterLinks.forEach(link => {
+                link.classList.remove('active');
+                // Create a URL object to safely get search params from href
+                const linkParams = new URL(link.href, window.location.origin).searchParams;
+                const linkTag = linkParams.get('tag');
+                
+                if (tagFilter === linkTag) {
+                    link.classList.add('active');
+                    activeLinkFound = true;
+                }
+            });
+
+            // If no tag in URL or no matching link, set "All" as active
+            if (!activeLinkFound) {
+                document.querySelector('.filter-tags a[href="projects.html"]').classList.add('active');
+            }
+
+            // 2. Filter the cards based on the URL parameter
+            projectCards.forEach(card => {
+                const cardCategories = card.getAttribute('data-category');
+                // Show card if no filter is set, or if its categories include the filter
+                if (!tagFilter || cardCategories.includes(tagFilter)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

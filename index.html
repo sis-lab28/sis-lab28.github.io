@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIS LAB 28</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styling - Default Light Mode */
+        :root {
+            --background-light: #ffffff;
+            --card-background-light: #f9f9f9;
+            --text-color-light: #5d5d5d;
+            --heading-color-light: #4a4a4a;
+            --border-color-light: #e0e0e0;
+
+            --background-dark: #1a202c;
+            --card-background-dark: #2d3748;
+            --text-color-dark: #a0aec0;
+            --heading-color-dark: #e2e8f0;
+            --border-color-dark: #4a5568;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--background-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(rgba(29, 43, 78, 0.8), rgba(29, 43, 78, 0.8)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+        }
+
+        header .logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 30px; }
+        header .logo-icon { width: 50px; height: 50px; background-color: #00bcd4; display: flex; align-items: center; justify-content: center; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+        header .logo-icon i { font-size: 24px; color: black; }
+        header .logo-text { font-size: 28px; font-weight: bold; letter-spacing: 1px; }
+        header nav a { color: white; text-decoration: none; margin: 0 20px; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; }
+
+        /* Hero Section */
+        .hero { background-color: var(--background-light); transition: background-color 0.3s, color 0.3s; text-align: center; padding: 80px 20px; }
+        .hero h1, .highlights h2 { color: var(--heading-color-light); transition: color 0.3s; }
+        .hero p { max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        
+        /* === PERUBAHAN UTAMA DI SINI === */
+        .highlights hr { border: 0; height: 1px; background-color: var(--border-color-light); margin-bottom: 50px; transition: background-color 0.3s; }
+
+        .highlights-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 80px; /* Jarak antar baris highlight */
+        }
+
+        .highlight-card {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        /* Aturan untuk membalik posisi di baris genap */
+        .highlight-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .highlight-image {
+            flex: 1;
+            background-color: var(--card-background-light);
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .highlight-image i {
+            font-size: 80px;
+            color: #d4d4d4;
+        }
+        
+        .highlight-content {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .highlight-content h3 {
+             color: var(--heading-color-light);
+             margin-top: 0;
+        }
+        
+        .highlight-content p {
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .highlight-content a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Penyesuaian untuk layar kecil (mobile) */
+        @media (max-width: 768px) {
+            .highlight-card, .highlight-card:nth-child(even) {
+                flex-direction: column;
+            }
+        }
+
+
+        /* Footer */
+        footer {
+            background: linear-gradient(rgba(29, 43, 78, 0.85), rgba(29, 43, 78, 0.85)), url(background.jpg);
+            background-size: cover;
+            background-position: center;
+            color: #e0e0e0;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .social-icons a { color: white; font-size: 22px; margin: 0 15px; }
+        .footer-text { margin-top: 30px; font-size: 14px; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid #4a5a8a; }
+        .footer-bottom p { font-size: 12px; }
+
+        /* === DARK MODE STYLES === */
+        body.dark-mode { background-color: var(--background-dark); color: var(--text-color-dark); }
+        body.dark-mode .hero { background-color: var(--background-dark); }
+        body.dark-mode .highlight-image { background-color: var(--card-background-dark); border-color: var(--border-color-dark); }
+        body.dark-mode .hero h1, body.dark-mode .highlights h2, body.dark-mode .highlight-content h3 { color: var(--heading-color-dark); }
+        body.dark-mode .highlights hr { background-color: var(--border-color-dark); }
+
+        /* === TOGGLE SWITCH STYLES === */
+        .theme-switch-wrapper { display: flex; align-items: center; justify-content: center; }
+        .theme-switch { display: inline-block; height: 34px; position: relative; width: 60px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: #555; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 26px; left: 4px; position: absolute; transition: .4s; width: 26px; border-radius: 50%; }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .slider .fa-moon { position: absolute; left: 9px; top: 9px; color: #f0f0f0; }
+        .slider .fa-sun { position: absolute; right: 9px; top: 9px; color: #f0f0f0; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon"><i class="fas fa-flask"></i></div>
+            <span class="logo-text">SIS LAB 28</span>
+        </div>
+        <nav>
+            <a href="research.html">RESEARCH</a>
+            <a href="projects.html">PROJECTS</a>
+            <a href="team.html">TEAM</a>
+            <a href="blog.html">BLOG</a>
+            <a href="contact.html">CONTACT</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>YOUR SPACE. OUR DATA. <br> LET'S BUILD SOMETHING MEANINGFUL.</h1>
+        <p>Spatial Intelligence System Lab is a research and development lab focused on building intelligent systems that understand, analyze, and visualize spatial data.</p>
+    </section>
+
+    <section class="highlights container">
+        <h2>Highlights</h2>
+        <hr>
+        <div class="highlights-grid">
+            <div class="highlight-card">
+                <div class="highlight-image">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="highlight-content">
+                    <h3>Our Research</h3>
+                    <p>Turning maps into smart decisions — we engineer, analyze, and visualize spatial data to unlock hidden insights you never knew existed. Curious how data can see what humans can't?</p>
+                    <a href="#">See our publications &rarr;</a>
+                </div>
+            </div>
+            <div class="highlight-card">
+                 <div class="highlight-image">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="highlight-content">
+                    <h3>Our Projects</h3>
+                    <p>Ever wondered what your location data is hiding? Our project reveals it all. We are a team of scientists, engineers, and designers focused on building intelligent systems.</p>
+                    <a href="#">Browse our projects &rarr;</a>
+                </div>
+            </div>
+            <div class="highlight-card">
+                 <div class="highlight-image">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="highlight-content">
+                    <h3>Our Team</h3>
+                    <p>Meet the brains behind the breakthroughs — our team turns data into action. A diverse group of thinkers and builders passionate about solving complex spatial problems.</p>
+                    <a href="#">Meet our team &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fas fa-envelope"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-google-scholar"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="footer-text">© 2025 sis-lab28 | Built with Lab Website Template</p>
+        <div class="footer-bottom">
+            <p>Dominatus Moderatus</p>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('checkbox');
+        const applyTheme = (isDarkMode) => {
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                themeToggle.checked = true;
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeToggle.checked = false;
+            }
+        };
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark') { applyTheme(true); } 
+        else if (savedTheme === 'light') { applyTheme(false); } 
+        else { applyTheme(prefersDark); }
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+
+</body>
+</html>

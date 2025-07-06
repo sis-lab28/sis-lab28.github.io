@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research - SIS LAB 28</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styling & Variables */
+        :root {
+            --background-light: #ffffff;
+            --card-background-light: #f9f9f9;
+            --text-color-light: #5d5d5d;
+            --heading-color-light: #4a4a4a;
+            --border-color-light: #e0e0e0;
+            --link-color: #007bff;
+
+            --background-dark: #1a202c;
+            --card-background-dark: #2d3748;
+            --text-color-dark: #a0aec0;
+            --heading-color-dark: #e2e8f0;
+            --border-color-dark: #4a5568;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--background-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(rgba(29, 43, 78, 0.8), rgba(29, 43, 78, 0.8)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 20px 0; /* Kurangi padding atas dan bawah header */
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between; /* Mengatur logo kiri, navigasi kanan */
+            align-items: center;
+            padding: 0 20px;
+        }
+        header .logo-container { display: flex; align-items: center; gap: 10px; }
+        header .logo-icon { width: 32px; height: 32px; background-color: #00bcd4; display: flex; align-items: center; justify-content: center; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+        header .logo-icon i { font-size: 16px; color: black; }
+        header .logo-text { font-size: 20px; font-weight: bold; }
+        header nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* === KONTEN UTAMA HALAMAN RESEARCH === */
+
+        .page-intro {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color-light);
+            margin-bottom: 40px;
+        }
+        .page-intro .icon { font-size: 32px; color: var(--heading-color-light); margin-bottom: 15px; }
+        .page-intro h1 { font-size: 32px; color: var(--heading-color-light); margin: 0 0 15px 0; }
+        .page-intro p { max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        .section-title { font-size: 28px; color: var(--heading-color-light); margin-bottom: 30px; }
+
+        .search-bar-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        #search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            background-color: var(--card-background-light);
+            color: var(--text-color-light);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .search-bar-wrapper .fa-search {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: var(--text-color-light);
+        }
+
+        .year-section { margin-bottom: 50px; }
+        .year-title { font-size: 24px; color: var(--heading-color-light); border-bottom: 1px solid var(--border-color-light); padding-bottom: 10px; margin-bottom: 30px; }
+
+        .publication-card {
+            display: flex;
+            gap: 25px;
+            background-color: var(--card-background-light);
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .publication-thumbnail {
+            flex: 0 0 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--background-light);
+            border-radius: 4px;
+        }
+        .publication-thumbnail img { width: 100%; height: 100%; object-fit: contain; }
+        .publication-thumbnail .fa-flask { font-size: 40px; color: #d4d4d4; }
+
+        .publication-details { flex: 1; }
+        .publication-details .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        .publication-details .title:hover { text-decoration: underline; }
+        .publication-details .authors {
+            font-size: 13px;
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        .publication-details .meta {
+            font-size: 12px;
+            color: var(--text-color-light);
+        }
+        .publication-details .abstract {
+            font-size: 13px;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        .publication-tags { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 10px; }
+        .publication-tags .tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            background-color: #e9ecef;
+            color: #495057;
+            text-decoration: none;
+        }
+
+        /* Footer (Sama seperti sebelumnya) */
+        footer { 
+            background: linear-gradient(rgba(29, 43, 78, 0.9), rgba(29, 43, 78, 0.9)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #e0e0e0; 
+            text-align: center; 
+            padding: 40px 20px; 
+        }
+        .social-icons a { color: white; font-size: 22px; margin: 0 15px; }
+        .footer-text { margin-top: 30px; font-size: 14px; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid #4a5a8a; }
+        .footer-link { font-size: 12px; color: #e0e0e0; text-decoration: none; transition: color 0.3s; }
+        .footer-link:hover { color: #ffffff; text-decoration: underline; }
+
+        /* === DARK MODE STYLES === */
+        body.dark-mode { background-color: var(--background-dark); color: var(--text-color-dark); }
+        body.dark-mode .page-intro, body.dark-mode .year-title { border-color: var(--border-color-dark); }
+        body.dark-mode .page-intro .icon, body.dark-mode .page-intro h1, body.dark-mode .section-title, body.dark-mode .year-title { color: var(--heading-color-dark); }
+        body.dark-mode #search-input { background-color: var(--card-background-dark); border-color: var(--border-color-dark); color: var(--text-color-dark); }
+        body.dark-mode .publication-card { background-color: var(--card-background-dark); border-color: var(--border-color-dark); }
+        body.dark-mode .publication-thumbnail { background-color: var(--background-dark); }
+        body.dark-mode .publication-details .meta { color: var(--text-color-dark); }
+        body.dark-mode .publication-tags .tag { background-color: #4a5568; color: #e2e8f0; }
+
+        /* Toggle Switch Styles */
+        .theme-switch-wrapper { display: flex; align-items: center; justify-content: center; }
+        .theme-switch { display: inline-block; height: 34px; position: relative; width: 60px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: #555; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+        .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 26px; left: 4px; position: absolute; transition: .4s; width: 26px; border-radius: 50%; }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .slider .fa-moon, .slider .fa-sun { position: absolute; top: 9px; color: #f0f0f0; }
+        .slider .fa-sun { right: 9px; }
+        .slider .fa-moon { left: 9px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-container" style="text-decoration: none; color: white;">
+                <div class="logo-icon"><i class="fas fa-flask"></i></div>
+                <span class="logo-text">SIS Lab 28</span>
+            </a>
+            <nav>
+                <a href="research.html">RESEARCH</a>
+                <a href="projects.html">PROJECTS</a>
+                <a href="team.html">TEAM</a>
+                <a href="blog.html">BLOG</a>
+                <a href="contact.html">CONTACT</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-intro">
+            <div class="icon"><i class="fas fa-flask"></i></div>
+            <h1>RESEARCH</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <div class="highlighted-section">
+            <h2 class="section-title">Highlighted</h2>
+            <article class="publication-card">
+                <div class="publication-thumbnail">
+                     <img src="https://user-images.githubusercontent.com/4752494/210214317-155d5420-43b0-4665-9831-235b6028681e.png" alt="Open collaborative writing with Manubot">
+                </div>
+                <div class="publication-details">
+                    <a href="#" class="title">Open collaborative writing with Manubot</a>
+                    <p class="authors">Daniel S. Himmelstein, Vincent Rubinetti, David R. Slochower, Dongbo Hu, Venkat S. Malladi, Casey S. Greene, Anthony Gitter</p>
+                    <p class="meta">PLOS Computational Biology · 04 Dec 2020 · doi:10.1371/journal.pcbi.1007128</p>
+                    <p class="abstract">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="publication-tags">
+                        <a href="#" class="tag"><i class="fas fa-code"></i> Manubot</a>
+                        <a href="#" class="tag"><i class="fas fa-file-alt"></i> Manuscript Source</a>
+                        <a href="#" class="tag"><i class="fas fa-globe"></i> Website</a>
+                        <a href="#" class="tag">open-science</a>
+                        <a href="#" class="tag">collaboration</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="all-publications-section">
+            <h2 class="section-title">All</h2>
+            <div class="search-bar-wrapper">
+                <input type="text" id="search-input" placeholder="Search items on this page">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <div class="year-section" data-year="2023">
+                <h3 class="year-title">2023</h3>
+                <article class="publication-card">
+                     <div class="publication-thumbnail"><i class="fas fa-flask"></i></div>
+                     <div class="publication-details">
+                         <a href="#" class="title">The Monarch Initiative in 2024: an analytic platform integrating phenotypes, genes and diseases across species</a>
+                         <p class="authors">Tim E Putman, Kevin Schaper, Nicolas Matentzoglu, Vincent P Rubinetti, Faisal S Alquaddoomi, ... , Damian Smedley, Peter N Robinson, Christopher J Mungall, Melissa A Haendel, Monica C Munoz-Torres</p>
+                         <p class="meta">Nucleic Acids Research · 24 Nov 2023 · doi:10.1093/nar/gkad1082</p>
+                     </div>
+                </article>
+                <article class="publication-card">
+                     <div class="publication-thumbnail"><i class="fas fa-flask"></i></div>
+                     <div class="publication-details">
+                         <a href="#" class="title">Integration of 168,000 samples reveals global patterns of the human gut microbiome</a>
+                         <p class="authors">Richard J. Abdill, Samantha P. Graham, Vincent Rubinetti, Frank W. Albert, Casey S. Greene, Sean Davis, Ran Blekhman</p>
+                         <p class="meta">Cold Spring Harbor Laboratory · 11 Oct 2023 · doi:10.1101/2023.10.11.560955</p>
+                     </div>
+                </article>
+            </div>
+
+            <div class="year-section" data-year="2022">
+                <h3 class="year-title">2022</h3>
+                <article class="publication-card">
+                     <div class="publication-thumbnail"><i class="fas fa-flask"></i></div>
+                     <div class="publication-details">
+                         <a href="#" class="title">Hetnet connectivity search provides rapid insights into how two biomedical entities are related</a>
+                         <p class="authors">Daniel S. Himmelstein, Michael Zietz, Vincent Rubinetti, Kyle Kloster, Benjamin J. Heil, ... David N. Nicholson, Yun Hao, Blair D. Sullivan, Michael W. Nagle, Casey S. Greene</p>
+                         <p class="meta">GigaScience · 28 Dec 2022 · doi:10.1093/gigascience/giad047</p>
+                     </div>
+                </article>
+                 <article class="publication-card">
+                     <div class="publication-thumbnail"><i class="fas fa-flask"></i></div>
+                     <div class="publication-details">
+                         <a href="#" class="title">MolEvolvR: A web-app for characterizing proteins using molecular evolution and phylogeny</a>
+                         <p class="authors">Jacob D Krol, Joseph T Burke, Samuel Z Chen, Lo N Sosinski, Faisal S Alquaddoomi, ... Vincent P Rubinetti, Shaddai Amolitos, Kellen M Reason, John B Johnston, Janani Ravi</p>
+                         <p class="meta">Cold Spring Harbor Laboratory · 22 Feb 2022 · doi:10.1101/2022.02.18.461833</p>
+                     </div>
+                </article>
+            </div>
+             <div class="year-section" data-year="2020">
+                <h3 class="year-title">2020</h3>
+                 <article class="publication-card">
+                     <div class="publication-thumbnail">
+                         <img src="https://user-images.githubusercontent.com/4752494/210214317-155d5420-43b0-4665-9831-235b6028681e.png" alt="Open collaborative writing with Manubot">
+                     </div>
+                     <div class="publication-details">
+                         <a href="#" class="title">Open collaborative writing with Manubot</a>
+                         <p class="authors">Daniel S. Himmelstein, Vincent Rubinetti, David R. Slochower, Dongbo Hu, Venkat S. Malladi, Casey S. Greene, Anthony Gitter</p>
+                         <p class="meta">PLOS Computational Biology · 04 Dec 2020 · doi:10.1371/journal.pcbi.1007128</p>
+                     </div>
+                 </article>
+                <article class="publication-card">
+                     <div class="publication-thumbnail">
+                          <img src="https://user-images.githubusercontent.com/4752494/210214324-9b5e4125-1811-4122-ab7d-2f094595c589.png" alt="Constructing knowledge graphs">
+                     </div>
+                     <div class="publication-details">
+                         <a href="#" class="title">Constructing knowledge graphs and their biomedical applications</a>
+                         <p class="authors">David N. Nicholson, Casey S. Greene</p>
+                         <p class="meta">Computational And Structural Biotechnology Journal · 01 Jan 2020 · doi:10.1016/j.csbj.2020.05.017</p>
+                     </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fas fa-envelope"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-google-scholar"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="footer-text">© 2025 sis-lab28 | Built with Lab Website Template</p>
+        <div class="footer-bottom">
+            <a href="https://www.example.com" class="footer-link">Dominatus Moderatus</a>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider">
+                        <i class="fas fa-sun"></i><i class="fas fa-moon"></i>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- THEME TOGGLE SCRIPT ---
+        const themeToggle = document.getElementById('checkbox');
+        const applyTheme = (isDarkMode) => {
+            if (isDarkMode) { document.body.classList.add('dark-mode'); themeToggle.checked = true; }
+            else { document.body.classList.remove('dark-mode'); themeToggle.checked = false; }
+        };
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark') { applyTheme(true); }
+        else if (savedTheme === 'light') { applyTheme(false); }
+        else { applyTheme(prefersDark); }
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // --- SEARCH FILTER SCRIPT ---
+        const searchInput = document.getElementById('search-input');
+        const yearSections = document.querySelectorAll('.year-section');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+
+            yearSections.forEach(section => {
+                const publications = section.querySelectorAll('.publication-card');
+                let hasVisiblePublications = false;
+
+                publications.forEach(pub => {
+                    const pubText = pub.textContent.toLowerCase();
+                    if (pubText.includes(searchTerm)) {
+                        pub.style.display = 'flex';
+                        hasVisiblePublications = true;
+                    } else {
+                        pub.style.display = 'none';
+                    }
+                });
+
+                // Show or hide the entire year section based on visible publications
+                if (hasVisiblePublications) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
