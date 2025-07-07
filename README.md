@@ -2,6 +2,6 @@
 
   # Sis Lab28's Website
 
-  Visit **[sis-lab28.github.io/nothing](https://sis-lab28.github.io/)** 🚀
+  Visit **[Spatial Intelligence System Lab.github.io/nothing](https://Spatial Intelligence System Lab.github.io/)** 🚀
   OMS 🚀
 
